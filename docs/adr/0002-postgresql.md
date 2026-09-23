@@ -1,6 +1,6 @@
 # ADR 0002: PostgreSQL via node-postgres
 
-- Status: accepted
+- Status: accepted (hosting sentences superseded by ADR 0003)
 - Date: 2026-09-17
 - Supersedes: in-memory `Map` store from the initial skeleton
 

@@ -25,7 +25,7 @@ npm test
 npm run dev
 ```
 
-`GET /health` → `{ "status": "ok" }` after a database ping.
+`GET /health` → `{ "status": "ok", "version": "<VERSION or 0.0.0-local>" }` after a database ping.
 
 `POST /lists` with `{ "name": "Inbox" }`.
 

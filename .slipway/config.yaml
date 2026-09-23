@@ -1,0 +1,86 @@
+# .slipway/config.yaml — written by /slipway:bootstrap, read by every other slipway skill.
+schema_version: 1
+
+project:
+  name: taskflow
+  description: Personal REST API for lists and tasks
+
+options:
+  cloud: azure
+  compute: aca
+  registry: acr
+  runner: github-actions
+  versioning: nbgv
+  branching: trunk
+  tracker: jira
+  secret_store: azure-key-vault
+  base_image: dhi
+  cd_trigger: on-ci-success
+  pr_checks: always-run-gate
+  cd_approval: github-ui
+  config_store: env
+  database: none
+
+azure:
+  # subscription_id / tenant_id omitted: tooling reads ARM_SUBSCRIPTION_ID / ARM_TENANT_ID.
+  location: westeurope
+  resource_group: rg-taskflow-dev
+  acr_name: acrtaskflow
+  key_vault_name: kv-taskflow-dev
+  identity_name: id-taskflow-dev
+  state:
+    resource_group: rg-taskflow-tfstate
+    storage_account: sttaskflowtf
+    container: tfstate
+
+github:
+  owner: integranz
+  repo: taskflow
+  default_branch: main
+  cd_environment: dev
+
+jira:
+  site_url: https://integranz.atlassian.net
+  project_key: DEVOPS
+  issue_type: Story
+  subtask_issue_type: Subtask
+  transitions:
+    start: In Progress
+    review: In Review
+    done: Done
+
+environments: [dev]
+
+pipelines:
+  name_prefix: taskflow
+
+shared_paths: []
+
+apps:
+  - name: api
+    path: .
+    kind: api
+    stack: custom
+    port: 3000
+    health_path: /health
+    test_command: npm test
+    image_repository: taskflow/api
+    version: "0.1"
+    env:
+      PORT: "3000"
+    secrets:
+      - name: database-url
+        env: DATABASE_URL
+    test_services:
+      - name: postgres
+        image: postgres:16
+        port: 5432
+        env:
+          POSTGRES_USER: taskflow
+          POSTGRES_PASSWORD: taskflow
+          POSTGRES_DB: taskflow_test
+        health_cmd: pg_isready -U taskflow
+    test_env:
+      DATABASE_URL: postgres://taskflow:taskflow@localhost:5432/taskflow_test
+
+cursor_mirror: false

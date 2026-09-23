@@ -9,7 +9,7 @@ Personal REST API for lists, tasks, and due dates.
 - Data: PostgreSQL via `pg` and `DATABASE_URL`. SQL lives in `src/db/`. There is no in-memory store.
 - API: JSON over HTTP (REST). No GraphQL, no tRPC.
 - Tests: Vitest against a real HTTP server and a real Postgres database (`taskflow_test` by default).
-- Hosting: none in-repo yet. Do not add Docker, Terraform, or cloud manifests unless asked.
+- Hosting: slipway on Azure Container Apps (ADR 0003). App `api` at the repo root, stack `custom`, health `GET /health` includes `version`.
 
 ## Product invariants
 

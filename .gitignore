@@ -4,3 +4,21 @@ dist/
 coverage/
 *.log
 .DS_Store
+
+# added by slipway
+.slipway/approvals/
+.slipway/tracking-queue.jsonl
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+tfplan*
+*.tfplan
+.terraform/
+.terraform.lock.hcl.tmp
+.env.*
+!.env.example
+*.pem
+*.key
+bin/
+obj/

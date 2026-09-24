@@ -55,8 +55,8 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - name: The image must exist for this tag
         run: |
-          d=$(az acr repository show -n acrtaskflow --image "${{ inputs.image_repository }}:$IMAGE_TAG" --query digest -o tsv 2>/dev/null || true)
-          [ -n "$d" ] || { echo "::error::${{ inputs.image_repository }}:$IMAGE_TAG not found in acrtaskflow"; exit 1; }
+          d=$(az acr repository show -n acrtaskflowdev --image "${{ inputs.image_repository }}:$IMAGE_TAG" --query digest -o tsv 2>/dev/null || true)
+          [ -n "$d" ] || { echo "::error::${{ inputs.image_repository }}:$IMAGE_TAG not found in acrtaskflowdev"; exit 1; }
           echo "  ${{ inputs.app }}: $d"
       - uses: hashicorp/setup-terraform@v3
         with:

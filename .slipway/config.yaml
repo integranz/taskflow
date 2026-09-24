@@ -25,8 +25,8 @@ azure:
   # subscription_id / tenant_id omitted: tooling reads ARM_SUBSCRIPTION_ID / ARM_TENANT_ID.
   location: westeurope
   resource_group: rg-taskflow-dev
-  acr_name: acrtaskflow
-  key_vault_name: kv-taskflow-dev
+  acr_name: acrtaskflowdev
+  key_vault_name: kv-taskflow-d1
   identity_name: id-taskflow-dev
   state:
     resource_group: rg-taskflow-tfstate
@@ -42,6 +42,7 @@ github:
 jira:
   site_url: https://integranz.atlassian.net
   project_key: DEVOPS
+  story_key: DEVOPS-13
   issue_type: Story
   subtask_issue_type: Subtask
   transitions:

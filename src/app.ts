@@ -35,7 +35,7 @@ export function createApp(store: Store) {
 
       if (method === "GET" && pathname === "/health") {
         await store.ping();
-        send(res, 200, { status: "ok" });
+        send(res, 200, { status: "ok", version: process.env.VERSION ?? "0.0.0-local" });
         return;
       }
 

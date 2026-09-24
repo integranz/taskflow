@@ -7,7 +7,7 @@ Non-negotiable constraints for taskflow. Change these only with a new ADR and an
 3. **PostgreSQL is the database.** There is one write path (`src/db`). Do not add an in-memory fallback.
 4. **TypeScript stays strict.** No `any` in new code. No disabling `strict`.
 5. **Tests gate behavior.** Public HTTP routes have Vitest coverage. Do not ship untested status codes.
-6. **No hosting in-tree** until requested. Deployment docs belong in an ADR first.
+6. **Hosting is slipway delivery** (ADR 0003). Do not add Docker, Terraform, or cloud files outside that layout.
 7. **No compliance overlays.** Do not add HIPAA, PCI, or GDPR modules “just in case.”
 8. **Errors are boring.** `{ "error": "..." }` and the correct HTTP status. No wrapped envelope unless an ADR says so.
 9. **IDs are UUIDs.** Clients never assign identifiers.

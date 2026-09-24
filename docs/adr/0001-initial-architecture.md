@@ -1,6 +1,6 @@
 # ADR 0001: Initial architecture
 
-- Status: accepted
+- Status: accepted (hosting row superseded by ADR 0003)
 - Date: 2026-09-17
 
 ## Context

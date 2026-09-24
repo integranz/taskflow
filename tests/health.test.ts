@@ -15,6 +15,9 @@ describe("GET /health", () => {
     const base = await listen(server);
     const res = await fetch(`${base}/health`);
     expect(res.status).toBe(200);
-    await expect(res.json()).resolves.toEqual({ status: "ok" });
+    await expect(res.json()).resolves.toEqual({
+      status: "ok",
+      version: process.env.VERSION ?? "0.0.0-local",
+    });
   });
 });

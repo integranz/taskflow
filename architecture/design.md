@@ -26,7 +26,7 @@ HTTP (src/app.ts)
 ```
 
 - Schema: `src/db/schema.sql` — `lists` and `tasks` (`tasks.list_id` FK, `ON DELETE CASCADE`).
-- `GET /health` pings the database (`SELECT 1`).
+- `GET /health` pings the database (`SELECT 1`) and returns `{ "status": "ok", "version" }`. `version` is the `VERSION` environment variable, or `0.0.0-local` when it is unset.
 - Integration tests use a dedicated database (default `taskflow_test`) and truncate between cases. They fail if Postgres is unreachable.
 
 ## Boundaries

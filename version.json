@@ -5,13 +5,16 @@
     "^refs/heads/main$"
   ],
   "cloudBuild": {
-    "buildNumber": { "enabled": true },
+    "buildNumber": {
+      "enabled": true
+    },
     "setVersionVariables": true
   },
   "pathFilters": [
     ".",
     ":!/.slipway",
-    ":!**/*.md"
+    ":!**/*.md",
+    ":!**/.terraform.lock.hcl"
   ],
   "release": {
     "tagName": "api/v{version}",

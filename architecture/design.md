@@ -25,7 +25,7 @@ PATCH  /tasks/:taskId        Bearer { "title"?, "dueDate"?, "done"?: boolean }  
 DELETE /tasks/:taskId        Bearer                                   → 204
 ```
 
-Bearer routes answer `401 {"error":"unauthorized"}` without a valid session. Rows owned by someone else are `404`. Malformed JSON is `400 {"error":"invalid json"}`; malformed UUIDs are `404`.
+Bearer routes answer `401 {"error":"unauthorized"}` without a valid session. Rows owned by someone else are `404`. Malformed JSON is `400 {"error":"invalid json"}`; any NUL character in a JSON string is `400`; bodies over 64 KiB are `413 {"error":"request body too large"}`; malformed UUIDs are `404`. `dueDate` must be a real calendar date (`2026-02-30` is `400`).
 
 JSON uses camelCase. Due dates are ISO-8601 calendar dates (`YYYY-MM-DD`); `createdAt` and `expiresAt` are ISO-8601 timestamps. `user` is `{ id, email, createdAt }` and never includes the password hash.
 

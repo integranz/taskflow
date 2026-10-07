@@ -172,28 +172,20 @@ export function createPgStore(pool: Pool): Store {
     },
 
     async updateTask(ownerId, id, patch: TaskPatch) {
-      const existing = await pool.query<TaskRow>(
-        `SELECT t.id, t.list_id, t.title, t.due_date, t.done
-         FROM tasks t
-         JOIN lists l ON l.id = t.list_id
-         WHERE t.id = $1 AND l.owner_id = $2`,
-        [id, ownerId],
-      );
-      const current = existing.rows[0];
-      if (!current) return null;
-      const title = patch.title ?? current.title;
-      const dueDate = patch.dueDate === undefined ? current.due_date : patch.dueDate;
-      const done = patch.done ?? current.done;
+      // One statement, so concurrent patches to different fields cannot overwrite each other:
+      // Postgres row-locks the task and evaluates each SET against the latest committed row.
       const result = await pool.query<TaskRow>(
-        `UPDATE tasks
-         SET title = $2, due_date = $3, done = $4
-         WHERE id = $1
-         RETURNING ${TASK_COLUMNS}`,
-        [id, title, dueDate, done],
+        `UPDATE tasks t
+         SET title = COALESCE($3::text, t.title),
+             due_date = CASE WHEN $4::boolean THEN $5::date ELSE t.due_date END,
+             done = COALESCE($6::boolean, t.done)
+         FROM lists l
+         WHERE t.id = $1 AND l.id = t.list_id AND l.owner_id = $2
+         RETURNING t.id, t.list_id, t.title, t.due_date, t.done`,
+        [id, ownerId, patch.title ?? null, patch.dueDate !== undefined, patch.dueDate ?? null, patch.done ?? null],
       );
       const row = result.rows[0];
-      if (!row) return null;
-      return mapTask(row);
+      return row ? mapTask(row) : null;
     },
 
     async deleteTask(ownerId, id) {

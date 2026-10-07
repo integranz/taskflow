@@ -16,7 +16,8 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  await pool.query("TRUNCATE lists CASCADE");
+  // sessions cascade from users; tasks cascade from lists.
+  await pool.query("TRUNCATE users, lists CASCADE");
 });
 
 afterAll(async () => {

@@ -1,6 +1,6 @@
 # taskflow
 
-Personal **task API**: REST JSON for lists and tasks, TypeScript, Vitest, PostgreSQL.
+**Task API** with accounts: REST JSON for users, lists and tasks, TypeScript, Vitest, PostgreSQL.
 
 ## Quick start
 
@@ -25,9 +25,26 @@ npm test
 npm run dev
 ```
 
+## Using the API
+
 `GET /health` → `{ "status": "ok", "version": "<VERSION or 0.0.0-local>" }` after a database ping.
 
-`POST /lists` with `{ "name": "Inbox" }`.
+Register once, then send the token on every other call:
+
+```bash
+curl -s -X POST localhost:3000/auth/register \
+  -H 'content-type: application/json' \
+  -d '{"email":"me@example.com","password":"password123"}'
+# → 201 { "user": { "id", "email", "createdAt" }, "token": "...", "expiresAt": "..." }
+
+curl -s -X POST localhost:3000/lists \
+  -H 'content-type: application/json' \
+  -H "authorization: Bearer $TOKEN" \
+  -d '{"name":"Inbox"}'
+# → 201 { "list": { "id", "name" } }
+```
+
+`POST /auth/login` returns the same shape. `POST /auth/logout` revokes the token. The full route list is in `architecture/design.md`.
 
 ## For agents
 

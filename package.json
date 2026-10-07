@@ -2,7 +2,7 @@
   "name": "taskflow",
   "version": "0.1.0",
   "private": true,
-  "description": "Personal task API — lists, tasks, due dates",
+  "description": "Task API with accounts — users, lists, tasks, due dates",
   "type": "module",
   "scripts": {
     "dev": "tsx watch --env-file=.env src/index.ts",
